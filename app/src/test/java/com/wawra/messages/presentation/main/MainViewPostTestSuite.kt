@@ -7,7 +7,7 @@ import com.wawra.messages.logic.PostRepository
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
-import io.reactivex.Single
+import io.reactivex.Observable
 import org.junit.After
 import org.junit.Assert.*
 import org.junit.Before
@@ -32,15 +32,15 @@ class MainViewPostTestSuite : BaseTestSuite() {
     @Test
     fun shouldGetModels() {
         // given
-        val models = listOf(
+        val posts = listOf(
             Post(1L, 1L),
             Post(2L, 2L)
         )
         // when
-        every { postRepositoryMock.getPostsFromDb() } returns Single.just(models)
+        every { postRepositoryMock.getPosts() } returns Observable.just(posts)
         objectUnderTest.getPosts()
         // then
-        verify { postRepositoryMock.getPostsFromDb() }
+        verify { postRepositoryMock.getPosts() }
         val result = objectUnderTest.models.value
         val error = objectUnderTest.error.value
         assertNull(error)
@@ -54,10 +54,10 @@ class MainViewPostTestSuite : BaseTestSuite() {
     @Test
     fun shouldNotGetModels() {
         // when
-        every { postRepositoryMock.getPostsFromDb() } returns Single.error(Exception())
+        every { postRepositoryMock.getPosts() } returns Observable.error(Exception())
         objectUnderTest.getPosts()
         // then
-        verify { postRepositoryMock.getPostsFromDb() }
+        verify { postRepositoryMock.getPosts() }
         val result = objectUnderTest.models.value
         val error = objectUnderTest.error.value
         assertNull(result)

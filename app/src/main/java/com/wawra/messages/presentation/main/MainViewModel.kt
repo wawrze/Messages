@@ -22,7 +22,7 @@ class MainViewModel @Inject constructor(private val postRepository: PostReposito
         get() = mError
 
     fun getPosts() {
-        postRepository.getPostsFromDb()
+        postRepository.getPosts()
             .subscribeOn(io())
             .observeOn(mainThread())
             .subscribe(
