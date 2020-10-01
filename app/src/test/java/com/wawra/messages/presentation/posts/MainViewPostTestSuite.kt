@@ -41,7 +41,7 @@ class MainViewPostTestSuite : BaseTestSuite() {
         objectUnderTest.getPosts()
         // then
         verify { postRepositoryMock.getPosts() }
-        val result = objectUnderTest.models.value
+        val result = objectUnderTest.posts.value
         val error = objectUnderTest.error.value
         assertNull(error)
         assertNotNull(result)
@@ -58,7 +58,7 @@ class MainViewPostTestSuite : BaseTestSuite() {
         objectUnderTest.getPosts()
         // then
         verify { postRepositoryMock.getPosts() }
-        val result = objectUnderTest.models.value
+        val result = objectUnderTest.posts.value
         val error = objectUnderTest.error.value
         assertNull(result)
         assertNotNull(error)

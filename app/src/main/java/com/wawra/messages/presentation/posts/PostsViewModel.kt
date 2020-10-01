@@ -16,7 +16,7 @@ class PostsViewModel @Inject constructor(private val postRepository: PostReposit
     private val mPosts = MutableLiveData<List<Post>>()
     private val mError = MutableLiveData<Int>()
 
-    val models: LiveData<List<Post>>
+    val posts: LiveData<List<Post>>
         get() = mPosts
     val error: LiveData<Int>
         get() = mError
