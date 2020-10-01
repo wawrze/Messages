@@ -160,7 +160,7 @@ class PostRepositoryTestSuite : BaseTestSuite() {
         // then
         verify(exactly = 2) { postDaoMock.getAll() }
         verify { apiMock.getPosts() }
-        verify { postDaoMock.insertPosts(any()) }
+        verify(exactly = 0) { postDaoMock.insertPosts(any()) }
 
         assertEquals(2, result.valueCount())
         val resultFromDb = result.values()[0]
