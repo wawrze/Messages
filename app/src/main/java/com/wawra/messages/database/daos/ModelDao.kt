@@ -15,4 +15,7 @@ interface ModelDao {
     @Query("DELETE FROM model")
     fun deleteAll(): Single<Int>
 
+    @Query("SELECT * FROM model")
+    fun getAll(): Single<List<Model>>
+
 }
