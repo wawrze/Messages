@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit
 class NetworkModule {
 
     companion object {
-        const val BASE_URL = "https://api.url"
+        const val BASE_URL = "https://safekiddo.free.beeceptor.com/"
     }
 
     @AppScoped
@@ -31,13 +31,6 @@ class NetworkModule {
     fun provideOkHttpClient(): OkHttpClient = OkHttpClient.Builder()
         .readTimeout(120, TimeUnit.SECONDS)
         .writeTimeout(120, TimeUnit.SECONDS)
-        .addInterceptor {
-            val newRequest = it.request().newBuilder()
-                .addHeader("header_name", "header_value")
-                .method(it.request().method(), it.request().body())
-                .build()
-            it.proceed(newRequest)
-        }
         .build()
 
     @AppScoped

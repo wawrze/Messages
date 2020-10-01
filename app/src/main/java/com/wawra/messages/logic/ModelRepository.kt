@@ -3,6 +3,7 @@ package com.wawra.messages.logic
 import com.wawra.messages.database.daos.ModelDao
 import com.wawra.messages.database.entities.Model
 import com.wawra.messages.network.ApiInterface
+import com.wawra.messages.network.models.PostsResponse
 import javax.inject.Inject
 
 class ModelRepository @Inject constructor(
@@ -12,7 +13,8 @@ class ModelRepository @Inject constructor(
 
     fun getModelsFromDb() = modelDao.getAll()
 
-    fun getModelsFromApi() = api.getModels()
-        .map { response -> response.map { Model(it.id) } }
+    fun getModelsFromApi() = api.getPosts()
+        .onErrorReturn { PostsResponse(listOf()) }
+        .map { response -> response.posts.map { Model(it.id) } }
 
 }

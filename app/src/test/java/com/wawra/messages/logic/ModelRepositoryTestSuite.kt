@@ -4,7 +4,7 @@ import com.wawra.messages.BaseTestSuite
 import com.wawra.messages.database.daos.ModelDao
 import com.wawra.messages.database.entities.Model
 import com.wawra.messages.network.ApiInterface
-import com.wawra.messages.network.models.ModelResponse
+import com.wawra.messages.network.models.PostResponse
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -48,14 +48,14 @@ class ModelRepositoryTestSuite : BaseTestSuite() {
     fun shouldGetModelsFromApi() {
         // given
         val models = listOf(
-            ModelResponse(1L),
-            ModelResponse(2L)
+            PostResponse(1L),
+            PostResponse(2L)
         )
         // when
-        every { apiMock.getModels() } returns Single.just(models)
+        every { apiMock.getPosts() } returns Single.just(models)
         val result = objectUnderTest.getModelsFromApi().blockingGet()
         // then
-        verify { apiMock.getModels() }
+        verify { apiMock.getPosts() }
         assertEquals(2, result.size)
         assertEquals(1L, result[0].modelId)
         assertEquals(2L, result[1].modelId)
