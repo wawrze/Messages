@@ -429,6 +429,74 @@ class PostDaoTestSuite : BaseDaoTestSuite() {
     }
     // endregion deleteById
 
+    // region restoreDeletedById
+    @Test
+    fun shouldRestoreDeletedById() {
+        // given
+        val posts = listOf(
+            Post(0L, 1L, "title1", "description1", "iconUrl1"),
+            Post(0L, 2L, "title2", "description2", "iconUrl2"),
+            Post(0L, 3L, "title3", "description3", "iconUrl3", PostStatus.DELETED.value),
+            Post(0L, 4L, "title4", "description4", "iconUrl4")
+        )
+        // when
+        objectUnderTest.insertPosts(posts).blockingGet()
+        val postsBeforeRestore = objectUnderTest.getAll().blockingGet()
+        val result = objectUnderTest.restoreDeletedById(3L).blockingGet()
+        val postsAfterRestore = objectUnderTest.getAll().blockingGet()
+        val deletedPostsAfterRestore = objectUnderTest.getAllDeleted().blockingGet()
+        // then
+        assertEquals(1, result)
+        assertEquals(3, postsBeforeRestore.size)
+        assertEquals(4, postsAfterRestore.size)
+        assertEquals(0, deletedPostsAfterRestore.size)
+    }
+
+    @Test
+    fun shouldRestoreDeletedByIdNoDeleted() {
+        // given
+        val posts = listOf(
+            Post(0L, 1L, "title1", "description1", "iconUrl1"),
+            Post(0L, 2L, "title2", "description2", "iconUrl2"),
+            Post(0L, 3L, "title3", "description3", "iconUrl3"),
+            Post(0L, 4L, "title4", "description4", "iconUrl4")
+        )
+        // when
+        objectUnderTest.insertPosts(posts).blockingGet()
+        val postsBeforeRestore = objectUnderTest.getAll().blockingGet()
+        val result = objectUnderTest.restoreDeletedById(3L).blockingGet()
+        val postsAfterRestore = objectUnderTest.getAll().blockingGet()
+        val deletedPostsAfterRestore = objectUnderTest.getAllDeleted().blockingGet()
+        // then
+        assertEquals(1, result)
+        assertEquals(4, postsBeforeRestore.size)
+        assertEquals(4, postsAfterRestore.size)
+        assertEquals(0, deletedPostsAfterRestore.size)
+    }
+
+    @Test
+    fun shouldNotRestoreDeletedByIdNoPost() {
+        // given
+        val posts = listOf(
+            Post(0L, 1L, "title1", "description1", "iconUrl1"),
+            Post(0L, 2L, "title2", "description2", "iconUrl2"),
+            Post(0L, 3L, "title3", "description3", "iconUrl3"),
+            Post(0L, 4L, "title4", "description4", "iconUrl4")
+        )
+        // when
+        objectUnderTest.insertPosts(posts).blockingGet()
+        val postsBeforeRestore = objectUnderTest.getAll().blockingGet()
+        val result = objectUnderTest.restoreDeletedById(5L).blockingGet()
+        val postsAfterRestore = objectUnderTest.getAll().blockingGet()
+        val deletedPostsAfterRestore = objectUnderTest.getAllDeleted().blockingGet()
+        // then
+        assertEquals(0, result)
+        assertEquals(4, postsBeforeRestore.size)
+        assertEquals(4, postsAfterRestore.size)
+        assertEquals(0, deletedPostsAfterRestore.size)
+    }
+    // endregion restoreDeletedById
+
     // region getById
     @Test
     fun shouldFetchPostById() {
@@ -466,9 +534,5 @@ class PostDaoTestSuite : BaseDaoTestSuite() {
         assertTrue(error is EmptyResultSetException)
     }
     // endregion getById
-
-    // region getNextId
-    // todo
-    // endregion getNextId
 
 }

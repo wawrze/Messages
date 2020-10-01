@@ -52,6 +52,12 @@ abstract class PostDao {
         deletedStatus: Int = PostStatus.DELETED.value
     ): Single<Int>
 
+    @Query("UPDATE post SET status = :changedStatus WHERE post_id = :postId")
+    abstract fun restoreDeletedById(
+        postId: Long,
+        changedStatus: Int = PostStatus.CHANGED.value
+    ): Single<Int>
+
     @Query("SELECT * FROM post WHERE post_id = :postId")
     abstract fun getById(postId: Long): Single<Post>
 

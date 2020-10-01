@@ -1,5 +1,6 @@
 package com.wawra.messages.logic
 
+import androidx.room.EmptyResultSetException
 import com.wawra.messages.BaseTestSuite
 import com.wawra.messages.database.daos.PostDao
 import com.wawra.messages.database.entities.Post
@@ -13,7 +14,7 @@ import io.mockk.slot
 import io.mockk.verify
 import io.reactivex.Single
 import io.reactivex.observers.TestObserver
-import org.junit.Assert.assertEquals
+import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 
@@ -54,7 +55,7 @@ class PostRepositoryTestSuite : BaseTestSuite() {
         // then
         verify(exactly = 2) { postDaoMock.getAll() }
         verify { apiMock.getPosts() }
-        every { postDaoMock.insertPosts(any()) }
+        verify { postDaoMock.insertPosts(any()) }
 
         assertEquals(2, postsSlot.captured.size)
         assertEquals(0L, postsSlot.captured[0].postId)
@@ -95,7 +96,7 @@ class PostRepositoryTestSuite : BaseTestSuite() {
         // then
         verify(exactly = 2) { postDaoMock.getAll() }
         verify { apiMock.getPosts() }
-        every { postDaoMock.insertPosts(any()) }
+        verify { postDaoMock.insertPosts(any()) }
 
         assertEquals(2, postsSlot.captured.size)
         assertEquals(0L, postsSlot.captured[0].postId)
@@ -131,7 +132,7 @@ class PostRepositoryTestSuite : BaseTestSuite() {
         // then
         verify(exactly = 2) { postDaoMock.getAll() }
         verify { apiMock.getPosts() }
-        every { postDaoMock.insertPosts(any()) }
+        verify { postDaoMock.insertPosts(any()) }
 
         assertEquals(2, result.valueCount())
         val resultFromDb = result.values()[0]
@@ -159,7 +160,7 @@ class PostRepositoryTestSuite : BaseTestSuite() {
         // then
         verify(exactly = 2) { postDaoMock.getAll() }
         verify { apiMock.getPosts() }
-        every { postDaoMock.insertPosts(any()) }
+        verify { postDaoMock.insertPosts(any()) }
 
         assertEquals(2, result.valueCount())
         val resultFromDb = result.values()[0]
@@ -174,5 +175,173 @@ class PostRepositoryTestSuite : BaseTestSuite() {
         assertEquals(2L, resultFromApi[1].postId)
     }
     // endregion getPosts
+
+    // region getPostById
+    @Test
+    fun shouldFetchPostById() {
+        // given
+        val post = Post(1L, 2L, "title1", "description1", "iconUrl1", PostStatus.UNCHANGED.value)
+        // when
+        every { postDaoMock.getById(1L) } returns Single.just(post)
+        val result = objectUnderTest.getPostById(1L).blockingGet()
+        // then
+        verify { postDaoMock.getById(1L) }
+        assertEquals(1L, result.postId)
+        assertEquals(2L, result.remoteId)
+    }
+
+    @Test
+    fun shouldNotFetchPostByIdNoPost() {
+        // when
+        every { postDaoMock.getById(1L) } returns Single.error(EmptyResultSetException(""))
+        val result = objectUnderTest.getPostById(1L).blockingGet()
+        // then
+        verify { postDaoMock.getById(1L) }
+        assertEquals(0L, result.postId)
+        assertEquals(0L, result.remoteId)
+    }
+    // endregion getPostById
+
+    // region updatePost
+    @Test
+    fun shouldUpdatePost() {
+        // when
+        every {
+            postDaoMock.update(1L, "newTitle", "newDescription", "newIconUrl")
+        } returns Single.just(1)
+        val result = objectUnderTest.updatePost(1L, "newTitle", "newDescription", "newIconUrl")
+            .blockingGet()
+        // then
+        verify { postDaoMock.update(1L, "newTitle", "newDescription", "newIconUrl") }
+        assertTrue(result)
+    }
+
+    @Test
+    fun shouldNotUpdatePost() {
+        // when
+        every {
+            postDaoMock.update(1L, "newTitle", "newDescription", "newIconUrl")
+        } returns Single.just(0)
+        val result = objectUnderTest.updatePost(1L, "newTitle", "newDescription", "newIconUrl")
+            .blockingGet()
+        // then
+        verify { postDaoMock.update(1L, "newTitle", "newDescription", "newIconUrl") }
+        assertFalse(result)
+    }
+
+    @Test
+    fun shouldNotUpdatePostDbError() {
+        // when
+        every {
+            postDaoMock.update(1L, "newTitle", "newDescription", "newIconUrl")
+        } returns Single.error(EmptyResultSetException(""))
+        val result = objectUnderTest.updatePost(1L, "newTitle", "newDescription", "newIconUrl")
+            .blockingGet()
+        // then
+        verify { postDaoMock.update(1L, "newTitle", "newDescription", "newIconUrl") }
+        assertFalse(result)
+    }
+    // endregion updatePost
+
+    // region deletePost
+    @Test
+    fun shouldDeletePost() {
+        // when
+        every { postDaoMock.deleteById(1L) } returns Single.just(1)
+        val result = objectUnderTest.deletePost(1L).blockingGet()
+        // then
+        verify { postDaoMock.deleteById(1L) }
+        assertTrue(result)
+    }
+
+    @Test
+    fun shouldNotDeletePost() {
+        // when
+        every { postDaoMock.deleteById(1L) } returns Single.just(0)
+        val result = objectUnderTest.deletePost(1L).blockingGet()
+        // then
+        verify { postDaoMock.deleteById(1L) }
+        assertFalse(result)
+    }
+
+    @Test
+    fun shouldNotDeletePostDbError() {
+        // when
+        every { postDaoMock.deleteById(1L) } returns Single.error(EmptyResultSetException(""))
+        val result = objectUnderTest.deletePost(1L).blockingGet()
+        // then
+        verify { postDaoMock.deleteById(1L) }
+        assertFalse(result)
+    }
+    // endregion deletePost
+
+    // region getDeletedPosts
+    @Test
+    fun shouldFetchDeletedPosts() {
+        // given
+        val post1 = Post(1L, 1L, "title1", "description1", "iconUrl1", PostStatus.DELETED.value)
+        val post2 = Post(2L, 2L, "title2", "description2", "iconUrl2", PostStatus.DELETED.value)
+        // when
+        every { postDaoMock.getAllDeleted() } returns Single.just(listOf(post1, post2))
+        val result = objectUnderTest.getDeletedPosts().blockingGet()
+        // then
+        verify { postDaoMock.getAllDeleted() }
+        assertEquals(2, result.size)
+        assertEquals(1L, result[0].postId)
+        assertEquals(2L, result[1].postId)
+    }
+
+    @Test
+    fun shouldFetchDeletedPostsEmptyList() {
+        // when
+        every { postDaoMock.getAllDeleted() } returns Single.just(listOf())
+        val result = objectUnderTest.getDeletedPosts().blockingGet()
+        // then
+        verify { postDaoMock.getAllDeleted() }
+        assertEquals(0, result.size)
+    }
+
+    @Test
+    fun shouldFetchDeletedPostsDbError() {
+        // when
+        every { postDaoMock.getAllDeleted() } returns Single.error(EmptyResultSetException(""))
+        val result = objectUnderTest.getDeletedPosts().blockingGet()
+        // then
+        verify { postDaoMock.getAllDeleted() }
+        assertEquals(0, result.size)
+    }
+    // endregion getDeletedPosts
+
+    // region restoreDeletedPost
+    @Test
+    fun shouldRestoreDeletedPost() {
+        // when
+        every { postDaoMock.restoreDeletedById(1L) } returns Single.just(1)
+        val result = objectUnderTest.restoreDeletedPost(1L).blockingGet()
+        // then
+        verify { postDaoMock.restoreDeletedById(1L) }
+        assertTrue(result)
+    }
+
+    @Test
+    fun shouldNotRestoreDeletedPost() {
+        // when
+        every { postDaoMock.restoreDeletedById(1L) } returns Single.just(0)
+        val result = objectUnderTest.restoreDeletedPost(1L).blockingGet()
+        // then
+        verify { postDaoMock.restoreDeletedById(1L) }
+        assertFalse(result)
+    }
+
+    @Test
+    fun shouldNotRestoreDeletedPostDbError() {
+        // when
+        every { postDaoMock.restoreDeletedById(1L) } returns Single.error(EmptyResultSetException(""))
+        val result = objectUnderTest.restoreDeletedPost(1L).blockingGet()
+        // then
+        verify { postDaoMock.restoreDeletedById(1L) }
+        assertFalse(result)
+    }
+    // endregion restoreDeletedPost
 
 }

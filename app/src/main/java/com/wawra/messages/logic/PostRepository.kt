@@ -20,9 +20,14 @@ class PostRepository @Inject constructor(
 
     fun getPostById(postId: Long) = Single.just(Post(0L, 0L))
 
-    fun updatePost() = Single.just(true)
+    fun updatePost(
+        postId: Long,
+        newTitle: String,
+        newDescription: String,
+        newIconUrl: String
+    ) = Single.just(true)
 
-    fun deletePost() = Single.just(true)
+    fun deletePost(postId: Long) = Single.just(true)
 
     fun getDeletedPosts() = Single.just(listOf<Post>())
 
