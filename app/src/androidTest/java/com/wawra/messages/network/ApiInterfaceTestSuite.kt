@@ -63,7 +63,7 @@ class ApiInterfaceTestSuite : BaseNetworkTestSuite() {
         testObserver.assertValueCount(1)
         val result = testObserver.values()[0]
         val posts = result.posts
-        assertEquals("/posts", request?.path)
+        assertEquals("/DBForCandidates/posts", request?.path)
         assertEquals(2, posts.size)
         assertEquals(1L, posts[0].id)
         assertEquals("title 1", posts[0].title)
@@ -93,7 +93,7 @@ class ApiInterfaceTestSuite : BaseNetworkTestSuite() {
         testObserver.assertValueCount(1)
         val result = testObserver.values()[0]
         val posts = result.posts
-        assertEquals("/posts", request?.path)
+        assertEquals("/DBForCandidates/posts", request?.path)
         assertEquals(0, posts.size)
     }
 

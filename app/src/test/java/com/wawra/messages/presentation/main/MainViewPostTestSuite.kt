@@ -2,8 +2,8 @@ package com.wawra.messages.presentation.main
 
 import com.wawra.messages.BaseTestSuite
 import com.wawra.messages.R
-import com.wawra.messages.database.entities.Model
-import com.wawra.messages.logic.ModelRepository
+import com.wawra.messages.database.entities.Post
+import com.wawra.messages.logic.PostRepository
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -13,15 +13,15 @@ import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 
-class MainViewModelTestSuite : BaseTestSuite() {
+class MainViewPostTestSuite : BaseTestSuite() {
 
-    private lateinit var modelRepositoryMock: ModelRepository
+    private lateinit var postRepositoryMock: PostRepository
     private lateinit var objectUnderTest: MainViewModel
 
     @Before
     fun prepare() {
-        modelRepositoryMock = mockk()
-        objectUnderTest = MainViewModel(modelRepositoryMock)
+        postRepositoryMock = mockk()
+        objectUnderTest = MainViewModel(postRepositoryMock)
     }
 
     @After
@@ -33,31 +33,31 @@ class MainViewModelTestSuite : BaseTestSuite() {
     fun shouldGetModels() {
         // given
         val models = listOf(
-            Model(1L),
-            Model(2L)
+            Post(1L, 1L),
+            Post(2L, 2L)
         )
         // when
-        every { modelRepositoryMock.getModelsFromDb() } returns Single.just(models)
-        objectUnderTest.getModels()
+        every { postRepositoryMock.getPostsFromDb() } returns Single.just(models)
+        objectUnderTest.getPosts()
         // then
-        verify { modelRepositoryMock.getModelsFromDb() }
+        verify { postRepositoryMock.getPostsFromDb() }
         val result = objectUnderTest.models.value
         val error = objectUnderTest.error.value
         assertNull(error)
         assertNotNull(result)
         result!!
         assertEquals(2, result.size)
-        assertEquals(1L, result[0].modelId)
-        assertEquals(2L, result[1].modelId)
+        assertEquals(1L, result[0].postId)
+        assertEquals(2L, result[1].postId)
     }
 
     @Test
     fun shouldNotGetModels() {
         // when
-        every { modelRepositoryMock.getModelsFromDb() } returns Single.error(Exception())
-        objectUnderTest.getModels()
+        every { postRepositoryMock.getPostsFromDb() } returns Single.error(Exception())
+        objectUnderTest.getPosts()
         // then
-        verify { modelRepositoryMock.getModelsFromDb() }
+        verify { postRepositoryMock.getPostsFromDb() }
         val result = objectUnderTest.models.value
         val error = objectUnderTest.error.value
         assertNull(result)

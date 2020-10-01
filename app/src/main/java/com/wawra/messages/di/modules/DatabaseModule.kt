@@ -3,7 +3,7 @@ package com.wawra.messages.di.modules
 import androidx.room.Room
 import com.wawra.messages.App
 import com.wawra.messages.database.Database
-import com.wawra.messages.database.daos.ModelDao
+import com.wawra.messages.database.daos.PostDao
 import dagger.Module
 import dagger.Provides
 
@@ -25,6 +25,6 @@ class DatabaseModule {
     }
 
     @Provides
-    fun provideModelDao(database: Database): ModelDao = database.modelDao()
+    fun providePostDao(database: Database): PostDao = database.postDao()
 
 }
