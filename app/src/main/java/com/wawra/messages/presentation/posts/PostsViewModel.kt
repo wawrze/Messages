@@ -1,4 +1,4 @@
-package com.wawra.messages.presentation.main
+package com.wawra.messages.presentation.posts
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,7 +10,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
 import io.reactivex.schedulers.Schedulers.io
 import javax.inject.Inject
 
-class MainViewModel @Inject constructor(private val postRepository: PostRepository) :
+class PostsViewModel @Inject constructor(private val postRepository: PostRepository) :
     BaseViewModel() {
 
     private val mPosts = MutableLiveData<List<Post>>()

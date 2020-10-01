@@ -1,4 +1,4 @@
-package com.wawra.messages.presentation.main
+package com.wawra.messages.presentation.posts
 
 import com.wawra.messages.BaseTestSuite
 import com.wawra.messages.R
@@ -16,12 +16,12 @@ import org.junit.Test
 class MainViewPostTestSuite : BaseTestSuite() {
 
     private lateinit var postRepositoryMock: PostRepository
-    private lateinit var objectUnderTest: MainViewModel
+    private lateinit var objectUnderTest: PostsViewModel
 
     @Before
     fun prepare() {
         postRepositoryMock = mockk()
-        objectUnderTest = MainViewModel(postRepositoryMock)
+        objectUnderTest = PostsViewModel(postRepositoryMock)
     }
 
     @After

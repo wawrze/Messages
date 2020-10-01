@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.navigation.NavController
 import dagger.android.support.DaggerFragment
 
+
 abstract class BaseFragment : DaggerFragment() {
 
     protected var navigate: NavController? = null
@@ -17,6 +18,11 @@ abstract class BaseFragment : DaggerFragment() {
     override fun onPause() {
         super.onPause()
         navigate = null
+    }
+
+    protected fun setTopBarTitle(title: String) {
+        (activity as? BaseActivity)?.supportActionBar?.title = title
+        (activity as? BaseActivity)?.supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     @MainThread

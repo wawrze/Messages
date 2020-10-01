@@ -20,4 +20,7 @@
     <dimen name="text_regular">14sp</dimen>
     <dimen name="text_small">12sp</dimen>
 
+    <dimen name="item_post_icon_height">120dp</dimen>
+    <dimen name="item_post_icon_width">90dp</dimen>
+
 </resources>
