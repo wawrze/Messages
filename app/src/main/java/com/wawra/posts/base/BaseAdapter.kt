@@ -24,8 +24,7 @@ abstract class BaseAdapter<ITEM, VH : RecyclerView.ViewHolder> : RecyclerView.Ad
 
     override fun getItemCount() = data.size
 
-    protected fun inflate(parent: ViewGroup, @LayoutRes res: Int): View {
-        return LayoutInflater.from(parent.context).inflate(res, parent, false)
-    }
+    protected fun ViewGroup.inflate(@LayoutRes layoutRes: Int): View =
+        LayoutInflater.from(context).inflate(layoutRes, this, false)
 
 }

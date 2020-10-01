@@ -16,11 +16,11 @@
     <dimen name="margin_regular">10dp</dimen>
     <dimen name="margin_small">5dp</dimen>
 
-    <dimen name="text_large">18sp</dimen>
+    <dimen name="text_large">16sp</dimen>
     <dimen name="text_regular">14sp</dimen>
     <dimen name="text_small">12sp</dimen>
 
-    <dimen name="image_max_height">120dp</dimen>
+    <dimen name="image_height">120dp</dimen>
     <dimen name="item_post_height">150dp</dimen>
     <dimen name="item_post_icon_height">120dp</dimen>
     <dimen name="item_post_icon_width">90dp</dimen>

@@ -38,10 +38,9 @@ class MainViewPostTestSuite : BaseTestSuite() {
         )
         // when
         every { postRepositoryMock.getPosts() } returns Observable.just(posts)
-        objectUnderTest.getPosts()
+        val result = objectUnderTest.getPosts().value
         // then
         verify { postRepositoryMock.getPosts() }
-        val result = objectUnderTest.posts.value
         val error = objectUnderTest.error.value
         assertNull(error)
         assertNotNull(result)
@@ -55,10 +54,9 @@ class MainViewPostTestSuite : BaseTestSuite() {
     fun shouldNotGetModels() {
         // when
         every { postRepositoryMock.getPosts() } returns Observable.error(Exception())
-        objectUnderTest.getPosts()
+        val result = objectUnderTest.getPosts().value
         // then
         verify { postRepositoryMock.getPosts() }
-        val result = objectUnderTest.posts.value
         val error = objectUnderTest.error.value
         assertNull(result)
         assertNotNull(error)

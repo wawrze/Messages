@@ -70,7 +70,7 @@ class PostDaoTestSuite : BaseDaoTestSuite() {
             Post(0L, 2L, "title2", "description2", "iconUrl2")
         )
         // when
-        val result = objectUnderTest.insertPosts(posts).blockingGet()
+        val result = objectUnderTest.insertPostsFromRemote(posts).blockingGet()
         val postsAfterInsert = objectUnderTest.getAll().blockingGet()
         // then
         assertEquals(2, result.size)
@@ -104,12 +104,10 @@ class PostDaoTestSuite : BaseDaoTestSuite() {
         // when
         objectUnderTest.insertPost(post1).blockingGet()
         objectUnderTest.insertPost(post2).blockingGet()
-        val result = objectUnderTest.insertPosts(newPosts).blockingGet()
+        val result = objectUnderTest.insertPostsFromRemote(newPosts).blockingGet()
         val postsAfterInsert = objectUnderTest.getAll().blockingGet()
         // then
-        assertEquals(2, result.size)
-        assertEquals(-1L, result[0])
-        assertEquals(-1L, result[1])
+        assertEquals(0, result.size)
 
         assertEquals(2, postsAfterInsert.size)
 
@@ -138,22 +136,22 @@ class PostDaoTestSuite : BaseDaoTestSuite() {
         // when
         objectUnderTest.insertPost(post1).blockingGet()
         objectUnderTest.insertPost(post2).blockingGet()
-        val result = objectUnderTest.insertPosts(newPosts).blockingGet()
+        val result = objectUnderTest.insertPostsFromRemote(newPosts).blockingGet()
         val postsAfterInsert = objectUnderTest.getAll().blockingGet()
         // then
         assertEquals(2, result.size)
-        assertEquals(3L, result[0])
-        assertEquals(4L, result[1])
+        assertEquals(1L, result[0])
+        assertEquals(2L, result[1])
 
         assertEquals(2, postsAfterInsert.size)
 
-        assertEquals(3L, postsAfterInsert[0].postId)
+        assertEquals(1L, postsAfterInsert[0].postId)
         assertEquals("newTitle1", postsAfterInsert[0].title)
         assertEquals("newDescription1", postsAfterInsert[0].description)
         assertEquals("newIconUrl1", postsAfterInsert[0].iconUrl)
         assertEquals(PostStatus.UNCHANGED.value, postsAfterInsert[0].status)
 
-        assertEquals(4L, postsAfterInsert[1].postId)
+        assertEquals(2L, postsAfterInsert[1].postId)
         assertEquals("newTitle2", postsAfterInsert[1].title)
         assertEquals("newDescription2", postsAfterInsert[1].description)
         assertEquals("newIconUrl2", postsAfterInsert[1].iconUrl)
@@ -177,13 +175,12 @@ class PostDaoTestSuite : BaseDaoTestSuite() {
         )
         // when
         objectUnderTest.insertPost(oldPost).blockingGet()
-        val result = objectUnderTest.insertPosts(newPosts).blockingGet()
+        val result = objectUnderTest.insertPostsFromRemote(newPosts).blockingGet()
         val postsAfterInsert = objectUnderTest.getAllDeleted().blockingGet() +
                 objectUnderTest.getAll().blockingGet()
         // then
-        assertEquals(2, result.size)
-        assertEquals(-1L, result[0])
-        assertEquals(3L, result[1])
+        assertEquals(1, result.size)
+        assertEquals(2L, result[0])
 
         assertEquals(2, postsAfterInsert.size)
 
@@ -193,7 +190,7 @@ class PostDaoTestSuite : BaseDaoTestSuite() {
         assertEquals("iconUrl1", postsAfterInsert[0].iconUrl)
         assertEquals(PostStatus.DELETED.value, postsAfterInsert[0].status)
 
-        assertEquals(3L, postsAfterInsert[1].postId)
+        assertEquals(2L, postsAfterInsert[1].postId)
         assertEquals("newTitle2", postsAfterInsert[1].title)
         assertEquals("newDescription2", postsAfterInsert[1].description)
         assertEquals("newIconUrl2", postsAfterInsert[1].iconUrl)
@@ -255,7 +252,7 @@ class PostDaoTestSuite : BaseDaoTestSuite() {
             Post(0L, 2L, "title2", "description2", "iconUrl2")
         )
         // when
-        objectUnderTest.insertPosts(posts).blockingGet()
+        objectUnderTest.insertPostsFromRemote(posts).blockingGet()
         val result = objectUnderTest.getAll().blockingGet()
         // then
         assertEquals(2, result.size)
@@ -279,7 +276,7 @@ class PostDaoTestSuite : BaseDaoTestSuite() {
             Post(0L, 2L, "title2", "description2", "iconUrl2", PostStatus.DELETED.value)
         )
         // when
-        objectUnderTest.insertPosts(posts).blockingGet()
+        objectUnderTest.insertPostsFromRemote(posts).blockingGet()
         val result = objectUnderTest.getAll().blockingGet()
         // then
         assertEquals(0, result.size)
@@ -293,7 +290,7 @@ class PostDaoTestSuite : BaseDaoTestSuite() {
             Post(0L, 2L, "title2", "description2", "iconUrl2")
         )
         // when
-        objectUnderTest.insertPosts(posts).blockingGet()
+        objectUnderTest.insertPostsFromRemote(posts).blockingGet()
         val result = objectUnderTest.getAll().blockingGet()
         // then
         assertEquals(1, result.size)
@@ -310,7 +307,7 @@ class PostDaoTestSuite : BaseDaoTestSuite() {
             Post(0L, 2L, "title2", "description2", "iconUrl2", PostStatus.DELETED.value)
         )
         // when
-        objectUnderTest.insertPosts(posts).blockingGet()
+        objectUnderTest.insertPostsFromRemote(posts).blockingGet()
         val result = objectUnderTest.getAllDeleted().blockingGet()
         // then
         assertEquals(2, result.size)
@@ -334,7 +331,7 @@ class PostDaoTestSuite : BaseDaoTestSuite() {
             Post(0L, 2L, "title2", "description2", "iconUrl2")
         )
         // when
-        objectUnderTest.insertPosts(posts).blockingGet()
+        objectUnderTest.insertPostsFromRemote(posts).blockingGet()
         val result = objectUnderTest.getAllDeleted().blockingGet()
         // then
         assertEquals(0, result.size)
@@ -350,7 +347,7 @@ class PostDaoTestSuite : BaseDaoTestSuite() {
             Post(0L, 4L, "title4", "description4", "iconUrl4", PostStatus.DELETED.value)
         )
         // when
-        objectUnderTest.insertPosts(posts).blockingGet()
+        objectUnderTest.insertPostsFromRemote(posts).blockingGet()
         val result = objectUnderTest.getAllDeleted().blockingGet()
         // then
         assertEquals(2, result.size)
@@ -370,7 +367,7 @@ class PostDaoTestSuite : BaseDaoTestSuite() {
             Post(0L, 4L, "title4", "description4", "iconUrl4")
         )
         // when
-        objectUnderTest.insertPosts(posts).blockingGet()
+        objectUnderTest.insertPostsFromRemote(posts).blockingGet()
         val postsBeforeDelete = objectUnderTest.getAll().blockingGet()
         val result = objectUnderTest.deleteById(2L).blockingGet()
         val postsAfterDelete = objectUnderTest.getAll().blockingGet()
@@ -393,7 +390,7 @@ class PostDaoTestSuite : BaseDaoTestSuite() {
             Post(0L, 4L, "title4", "description4", "iconUrl4")
         )
         // when
-        objectUnderTest.insertPosts(posts).blockingGet()
+        objectUnderTest.insertPostsFromRemote(posts).blockingGet()
         val postsBeforeDelete = objectUnderTest.getAll().blockingGet()
         val result = objectUnderTest.deleteById(2L).blockingGet()
         val postsAfterDelete = objectUnderTest.getAll().blockingGet()
@@ -416,7 +413,7 @@ class PostDaoTestSuite : BaseDaoTestSuite() {
             Post(0L, 4L, "title4", "description4", "iconUrl4")
         )
         // when
-        objectUnderTest.insertPosts(posts).blockingGet()
+        objectUnderTest.insertPostsFromRemote(posts).blockingGet()
         val postsBeforeDelete = objectUnderTest.getAll().blockingGet()
         val result = objectUnderTest.deleteById(5L).blockingGet()
         val postsAfterDelete = objectUnderTest.getAll().blockingGet()
@@ -440,7 +437,7 @@ class PostDaoTestSuite : BaseDaoTestSuite() {
             Post(0L, 4L, "title4", "description4", "iconUrl4")
         )
         // when
-        objectUnderTest.insertPosts(posts).blockingGet()
+        objectUnderTest.insertPostsFromRemote(posts).blockingGet()
         val postsBeforeRestore = objectUnderTest.getAll().blockingGet()
         val result = objectUnderTest.restoreDeletedById(3L).blockingGet()
         val postsAfterRestore = objectUnderTest.getAll().blockingGet()
@@ -462,7 +459,7 @@ class PostDaoTestSuite : BaseDaoTestSuite() {
             Post(0L, 4L, "title4", "description4", "iconUrl4")
         )
         // when
-        objectUnderTest.insertPosts(posts).blockingGet()
+        objectUnderTest.insertPostsFromRemote(posts).blockingGet()
         val postsBeforeRestore = objectUnderTest.getAll().blockingGet()
         val result = objectUnderTest.restoreDeletedById(3L).blockingGet()
         val postsAfterRestore = objectUnderTest.getAll().blockingGet()
@@ -484,7 +481,7 @@ class PostDaoTestSuite : BaseDaoTestSuite() {
             Post(0L, 4L, "title4", "description4", "iconUrl4")
         )
         // when
-        objectUnderTest.insertPosts(posts).blockingGet()
+        objectUnderTest.insertPostsFromRemote(posts).blockingGet()
         val postsBeforeRestore = objectUnderTest.getAll().blockingGet()
         val result = objectUnderTest.restoreDeletedById(5L).blockingGet()
         val postsAfterRestore = objectUnderTest.getAll().blockingGet()
@@ -508,7 +505,7 @@ class PostDaoTestSuite : BaseDaoTestSuite() {
             Post(0L, 4L, "title4", "description4", "iconUrl4")
         )
         // when
-        objectUnderTest.insertPosts(posts).blockingGet()
+        objectUnderTest.insertPostsFromRemote(posts).blockingGet()
         val result = objectUnderTest.getById(3L).blockingGet()
         // then
         assertEquals(3L, result.postId)

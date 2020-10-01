@@ -50,12 +50,17 @@ class PostRepositoryTestSuite : BaseTestSuite() {
         every {
             apiMock.getPosts()
         } returns Single.just(PostsResponse(listOf(postResponse1, postResponse2)))
-        every { postDaoMock.insertPosts(capture(postsSlot)) } returns Single.just(listOf(3L, 4L))
+        every { postDaoMock.insertPostsFromRemote(capture(postsSlot)) } returns Single.just(
+            listOf(
+                3L,
+                4L
+            )
+        )
         val result: TestObserver<List<Post>> = objectUnderTest.getPosts().test()
         // then
         verify(exactly = 2) { postDaoMock.getAll() }
         verify { apiMock.getPosts() }
-        verify { postDaoMock.insertPosts(any()) }
+        verify { postDaoMock.insertPostsFromRemote(any()) }
 
         assertEquals(2, postsSlot.captured.size)
         assertEquals(0L, postsSlot.captured[0].postId)
@@ -91,12 +96,17 @@ class PostRepositoryTestSuite : BaseTestSuite() {
         every {
             apiMock.getPosts()
         } returns Single.just(PostsResponse(listOf(postResponse1, postResponse2)))
-        every { postDaoMock.insertPosts(capture(postsSlot)) } returns Single.just(listOf(3L, 4L))
+        every { postDaoMock.insertPostsFromRemote(capture(postsSlot)) } returns Single.just(
+            listOf(
+                3L,
+                4L
+            )
+        )
         val result: TestObserver<List<Post>> = objectUnderTest.getPosts().test()
         // then
         verify(exactly = 2) { postDaoMock.getAll() }
         verify { apiMock.getPosts() }
-        verify { postDaoMock.insertPosts(any()) }
+        verify { postDaoMock.insertPostsFromRemote(any()) }
 
         assertEquals(2, postsSlot.captured.size)
         assertEquals(0L, postsSlot.captured[0].postId)
@@ -127,12 +137,12 @@ class PostRepositoryTestSuite : BaseTestSuite() {
         every {
             apiMock.getPosts()
         } returns Single.just(PostsResponse(listOf()))
-        every { postDaoMock.insertPosts(any()) } returns Single.just(listOf())
+        every { postDaoMock.insertPostsFromRemote(any()) } returns Single.just(listOf())
         val result: TestObserver<List<Post>> = objectUnderTest.getPosts().test()
         // then
         verify(exactly = 2) { postDaoMock.getAll() }
         verify { apiMock.getPosts() }
-        verify { postDaoMock.insertPosts(any()) }
+        verify { postDaoMock.insertPostsFromRemote(any()) }
 
         assertEquals(2, result.valueCount())
         val resultFromDb = result.values()[0]
@@ -155,12 +165,12 @@ class PostRepositoryTestSuite : BaseTestSuite() {
             postDaoMock.getAll()
         } returns Single.just(listOf(post1, post2))
         every { apiMock.getPosts() } returns Single.error(Exception())
-        every { postDaoMock.insertPosts(any()) } returns Single.just(listOf())
+        every { postDaoMock.insertPostsFromRemote(any()) } returns Single.just(listOf())
         val result: TestObserver<List<Post>> = objectUnderTest.getPosts().test()
         // then
         verify(exactly = 2) { postDaoMock.getAll() }
         verify { apiMock.getPosts() }
-        verify(exactly = 0) { postDaoMock.insertPosts(any()) }
+        verify(exactly = 0) { postDaoMock.insertPostsFromRemote(any()) }
 
         assertEquals(2, result.valueCount())
         val resultFromDb = result.values()[0]

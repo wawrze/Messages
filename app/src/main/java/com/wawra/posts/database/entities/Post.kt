@@ -6,11 +6,11 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.wawra.posts.logic.models.PostStatus
 
-@Entity(tableName = "post", indices = [Index(value = ["remote_id"], unique = true)])
+@Entity(tableName = "post", indices = [Index(value = ["post_id", "remote_id"], unique = true)])
 data class Post(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "post_id")
-    val postId: Long,
+    var postId: Long,
     @ColumnInfo(name = "remote_id")
     val remoteId: Long,
     @ColumnInfo(name = "title")

@@ -1,7 +1,6 @@
 package com.wawra.posts.presentation.posts
 
 import android.os.Bundle
-import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,14 +14,13 @@ import kotlinx.android.synthetic.main.fragment_posts.*
 import javax.inject.Inject
 
 
-class PostsFragment : BaseFragment() {
+class PostsFragment : BaseFragment(), PostActions {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProviderFactory
 
     private lateinit var viewModel: PostsViewModel
     private lateinit var postsAdapter: PostsAdapter
-    private var state: Parcelable? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,38 +36,43 @@ class PostsFragment : BaseFragment() {
         setTopBarTitle(getString(R.string.app_name))
         setupAdapter()
         setupObservers()
-        fragment_post_swipe_refresh.isRefreshing = true
-        fragment_post_swipe_refresh.setOnRefreshListener { viewModel.getPosts() }
-        viewModel.getPosts()
+        fragment_post_swipe_refresh.setOnRefreshListener { getPosts() }
     }
 
     private fun setupObservers() {
-        viewModel.posts.observe {
-            fragment_post_swipe_refresh.isRefreshing = false
-            postsAdapter.data = it
-        }
         viewModel.error.observe {
-            Toast.makeText(context, getString(it), Toast.LENGTH_LONG).show()
+            Toast.makeText(context, getString(R.string.unknown_error, it), Toast.LENGTH_LONG).show()
         } // todo
     }
 
     private fun setupAdapter() {
-        postsAdapter = PostsAdapter(showPostDetailsCallback, deletePostCallback, editPostCallback)
+        if (!::postsAdapter.isInitialized) {
+            postsAdapter = PostsAdapter(this as PostActions)
+            getPosts()
+        }
         fragment_posts_list.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = postsAdapter
         }
     }
 
-    private val showPostDetailsCallback: (Long) -> Unit = {
-        navigate?.navigate(PostsFragmentDirections.toFragmentPostDetails(it))
+    private fun getPosts() {
+        fragment_post_swipe_refresh.isRefreshing = true
+        viewModel.getPosts().observe {
+            fragment_post_swipe_refresh.isRefreshing = false
+            postsAdapter.data = it
+        }
     }
 
-    private val deletePostCallback: (Long) -> Unit = {
+    override fun details(postId: Long) {
+        navigate?.navigate(PostsFragmentDirections.toFragmentPostDetails(postId))
+    }
+
+    override fun edit(postId: Long) {
         Toast.makeText(context, "NOT IMPLEMENTED!", Toast.LENGTH_LONG).show() // todo
     }
 
-    private val editPostCallback: (Long) -> Unit = {
+    override fun delete(postId: Long) {
         Toast.makeText(context, "NOT IMPLEMENTED!", Toast.LENGTH_LONG).show() // todo
     }
 

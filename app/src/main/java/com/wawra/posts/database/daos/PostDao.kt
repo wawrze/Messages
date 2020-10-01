@@ -16,7 +16,10 @@ abstract class PostDao {
         unchangedStatus: Int = PostStatus.UNCHANGED.value
     ): Single<Int>
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Query("SELECT * FROM post WHERE remote_id = :remoteId")
+    protected abstract fun getLocalPost(remoteId: Long): Post?
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     protected abstract fun insert(posts: List<Post>): Single<List<Long>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -61,7 +64,15 @@ abstract class PostDao {
     @Query("SELECT * FROM post WHERE post_id = :postId")
     abstract fun getById(postId: Long): Single<Post>
 
-    fun insertPosts(posts: List<Post>): Single<List<Long>> = deleteAllUnchanged()
-        .flatMap { insert(posts) }
+    fun insertPostsFromRemote(posts: List<Post>): Single<List<Long>> = Single.fromCallable {
+        val postsToInsert = ArrayList<Post>()
+        posts.forEach { remotePost ->
+            val localPost = getLocalPost(remotePost.remoteId)
+            if (localPost == null || localPost.status == PostStatus.UNCHANGED.value) {
+                postsToInsert.add(remotePost.apply { postId = localPost?.postId ?: 0L })
+            }
+        }
+        postsToInsert
+    }.flatMap { insert(it) }
 
 }

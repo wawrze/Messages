@@ -11,7 +11,7 @@ import dagger.Provides
 class DatabaseModule {
 
     companion object {
-        private const val DB_NAME = "db.db"
+        private const val DB_NAME = "posts.db"
     }
 
     private lateinit var database: Database

@@ -5,10 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
-import com.wawra.posts.BuildConfig
 import com.wawra.posts.R
 import com.wawra.posts.base.BaseFragment
 import com.wawra.posts.base.ViewModelProviderFactory
@@ -45,44 +43,10 @@ class PostDetailsFragment : BaseFragment() {
         viewModel.post.observe {
             fragment_post_details_title.text = it.title
             fragment_post_details_details.text = it.description
-            view?.post {
-                val smallMarginWidth = resources.getDimensionPixelSize(
-                    resources.getIdentifier(
-                        "margin_small",
-                        "dimen",
-                        BuildConfig.APPLICATION_ID
-                    )
-                )
-                val largeMarginWidth = resources.getDimensionPixelSize(
-                    resources.getIdentifier(
-                        "margin_large",
-                        "dimen",
-                        BuildConfig.APPLICATION_ID
-                    )
-                )
-                val maxImageWidth = (view?.width ?: 0) - 2 * smallMarginWidth
-                context?.loadImage(
-                    it.iconUrl,
-                    fragment_post_details_horizontal_icon,
-                    fragment_post_details_vertical_icon,
-                    maxImageWidth
-                ) {
-                    val params =
-                        ConstraintLayout.LayoutParams(fragment_post_details_divider.layoutParams)
-                    params.startToStart = ConstraintLayout.LayoutParams.PARENT_ID
-                    params.endToEnd = ConstraintLayout.LayoutParams.PARENT_ID
-                    params.topMargin = largeMarginWidth
-                    if (fragment_post_details_vertical_icon_background.visibility == View.GONE) {
-                        params.topToBottom = R.id.fragment_post_details_title
-                    } else {
-                        params.topToBottom = R.id.fragment_post_details_vertical_icon_background
-                    }
-                    fragment_post_details_divider.layoutParams = params
-                }
-            }
+            fragment_post_details_icon.loadImage(it.iconUrl)
         }
         viewModel.error.observe {
-            Toast.makeText(context, getString(it), Toast.LENGTH_LONG).show()
+            Toast.makeText(context, getString(R.string.unknown_error, it), Toast.LENGTH_LONG).show()
         } // todo
     }
 
