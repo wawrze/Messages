@@ -1,6 +1,7 @@
 package com.wawra.posts.presentation.posts
 
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +14,7 @@ import com.wawra.posts.base.ViewModelProviderFactory
 import kotlinx.android.synthetic.main.fragment_posts.*
 import javax.inject.Inject
 
+
 class PostsFragment : BaseFragment() {
 
     @Inject
@@ -20,6 +22,7 @@ class PostsFragment : BaseFragment() {
 
     private lateinit var viewModel: PostsViewModel
     private lateinit var postsAdapter: PostsAdapter
+    private var state: Parcelable? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,7 +35,7 @@ class PostsFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setTopBarTitle(getString(R.string.app_name)) // todo
+        setTopBarTitle(getString(R.string.app_name))
         setupAdapter()
         setupObservers()
         fragment_post_swipe_refresh.isRefreshing = true
@@ -59,7 +62,7 @@ class PostsFragment : BaseFragment() {
     }
 
     private val showPostDetailsCallback: (Long) -> Unit = {
-        Toast.makeText(context, "NOT IMPLEMENTED!", Toast.LENGTH_LONG).show() // todo
+        navigate?.navigate(PostsFragmentDirections.toFragmentPostDetails(it))
     }
 
     private val deletePostCallback: (Long) -> Unit = {

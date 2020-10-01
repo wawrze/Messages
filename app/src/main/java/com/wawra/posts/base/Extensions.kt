@@ -15,7 +15,8 @@ fun Context.loadImage(
     imageUrl: String,
     horizontalImageView: ImageView,
     verticalImageView: ImageView,
-    maxWidth: Int
+    maxWidth: Int,
+    callBack: (() -> Unit)? = null
 ) {
     val horizontalImageViewBackground = horizontalImageView.parent as CardView
     val verticalImageViewBackground = (verticalImageView.parent as CardView)
@@ -53,6 +54,7 @@ fun Context.loadImage(
                     params.width = bitmap.width
                     (view.parent as CardView).layoutParams = params
                     view.setImageBitmap(bitmap)
+                    callBack?.invoke()
                 }
             }
         )

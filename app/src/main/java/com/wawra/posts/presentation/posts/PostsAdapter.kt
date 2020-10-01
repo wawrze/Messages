@@ -24,8 +24,6 @@ class PostsAdapter(
             setOnClickListener { detailsCallback.invoke(item.postId) }
             item_post_delete_button.setOnClickListener { deleteCallback.invoke(item.postId) }
             item_post_edit_button.setOnClickListener { editCallback.invoke(item.postId) }
-            item_post_vertical_icon_background.visibility = View.GONE
-            item_post_horizontal_icon_background.visibility = View.GONE
             post {
                 val marginWidth = resources?.getDimensionPixelSize(
                     resources?.getIdentifier(
