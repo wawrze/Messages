@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/fragment_main"
-        android:name="com.wawra.messages.presentation.posts.PostsFragment"
+        android:name="com.wawra.posts.presentation.posts.PostsFragment"
         android:label="MainFragment" />
 
 </navigation>
