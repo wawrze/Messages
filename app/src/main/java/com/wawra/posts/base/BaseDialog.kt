@@ -8,10 +8,15 @@ import android.os.Bundle
 import android.view.KeyEvent
 import android.view.ViewGroup
 import android.view.Window
+import androidx.annotation.MainThread
+import androidx.lifecycle.LiveData
+import androidx.navigation.NavController
 import com.wawra.posts.R
 import dagger.android.support.DaggerDialogFragment
 
 abstract class BaseDialog : DaggerDialogFragment() {
+
+    protected var navigate: NavController? = null
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
@@ -34,10 +39,24 @@ abstract class BaseDialog : DaggerDialogFragment() {
         params?.height = ViewGroup.LayoutParams.WRAP_CONTENT
         dialog?.window?.attributes = params as android.view.WindowManager.LayoutParams
         dialog?.setOnKeyListener { _, keyCode, _ -> keyCode == KeyEvent.KEYCODE_BACK }
+        navigate = (activity as? Navigation)?.getNavigationController()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        navigate = null
     }
 
     override fun dismiss() {
         super.dismissAllowingStateLoss()
+    }
+
+    @MainThread
+    protected fun <T> LiveData<T>.observe(action: (T) -> Unit) {
+        this.observe(
+            this@BaseDialog.viewLifecycleOwner,
+            { action.invoke(it) }
+        )
     }
 
 }

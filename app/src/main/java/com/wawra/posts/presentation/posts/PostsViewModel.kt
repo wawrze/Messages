@@ -13,27 +13,26 @@ import javax.inject.Inject
 class PostsViewModel @Inject constructor(private val postRepository: PostRepository) :
     BaseViewModel() {
 
+    private val mPosts = MutableLiveData<List<Post>>()
     private val mError = MutableLiveData<Int>()
 
+    val posts: LiveData<List<Post>>
+        get() = mPosts
     val error: LiveData<Int>
         get() = mError
 
-    fun getPosts(): LiveData<List<Post>> {
-        val posts = MutableLiveData<List<Post>>()
-
+    fun getPosts() {
         postRepository.getPosts()
             .subscribeOn(io())
             .observeOn(mainThread())
             .subscribe(
-                { posts.postValue(it) },
+                { mPosts.postValue(it) },
                 {
                     it.printStackTrace()
                     mError.postValue(ErrorCodes.POSTS_VIEW_MODEL_GET_POSTS.code)
                 }
             )
             .addToDisposables()
-
-        return posts
     }
 
 }

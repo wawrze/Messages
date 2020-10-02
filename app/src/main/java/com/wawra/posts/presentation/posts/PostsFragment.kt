@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.wawra.posts.R
+import com.wawra.posts.base.BaseActivity
 import com.wawra.posts.base.BaseFragment
 import com.wawra.posts.base.ViewModelProviderFactory
 import kotlinx.android.synthetic.main.fragment_posts.*
@@ -39,19 +40,25 @@ class PostsFragment : BaseFragment(), PostActions {
         fragment_post_swipe_refresh.setOnRefreshListener { getPosts() }
     }
 
+    override fun onResume() {
+        super.onResume()
+        getPosts()
+    }
+
     private fun setupObservers() {
         viewModel.error.observe {
             navigate?.navigate(
                 PostsFragmentDirections.toDialogError(getString(R.string.unknown_error, it))
             )
         }
+        viewModel.posts.observe {
+            fragment_post_swipe_refresh.isRefreshing = false
+            postsAdapter.data = it
+        }
     }
 
     private fun setupAdapter() {
-        if (!::postsAdapter.isInitialized) {
-            postsAdapter = PostsAdapter(this as PostActions)
-            getPosts()
-        }
+        if (!::postsAdapter.isInitialized) postsAdapter = PostsAdapter(this as PostActions)
         fragment_posts_list.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = postsAdapter
@@ -60,10 +67,7 @@ class PostsFragment : BaseFragment(), PostActions {
 
     private fun getPosts() {
         fragment_post_swipe_refresh.isRefreshing = true
-        viewModel.getPosts().observe {
-            fragment_post_swipe_refresh.isRefreshing = false
-            postsAdapter.data = it
-        }
+        viewModel.getPosts()
     }
 
     override fun details(postId: Long) {
@@ -75,7 +79,8 @@ class PostsFragment : BaseFragment(), PostActions {
     }
 
     override fun delete(postId: Long) {
-        Toast.makeText(context, "NOT IMPLEMENTED!", Toast.LENGTH_LONG).show() // todo
+        (activity as? BaseActivity)?.dialogCallback = { getPosts() }
+        navigate?.navigate(PostsFragmentDirections.toDialogDelete(postId))
     }
 
 }

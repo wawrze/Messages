@@ -4,6 +4,10 @@
     <string name="wait_please">Wait please…</string>
     <string name="unknown_error">An unknown error has occurred. Error code: %d</string>
     <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
 
     <string name="post_details">Post details</string>
+    <string name="delete_question">Are you sure you want to delete the post below?</string>
+    <string name="delete_confirmation">Post has been deleted.</string>
+    <string name="delete_error">An error occurred while deleting the post.</string>
 </resources>

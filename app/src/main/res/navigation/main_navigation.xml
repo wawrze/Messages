@@ -25,6 +25,14 @@
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
 
+        <action
+            android:id="@+id/to_dialog_delete"
+            app:destination="@id/dialog_delete"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+
     </fragment>
 
     <fragment
@@ -44,6 +52,14 @@
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
 
+        <action
+            android:id="@+id/to_dialog_delete"
+            app:destination="@id/dialog_delete"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+
     </fragment>
 
     <dialog
@@ -57,5 +73,15 @@
 
     </dialog>
 
+    <dialog
+        android:id="@+id/dialog_delete"
+        android:name="com.wawra.posts.presentation.deleteDialog.DeleteDialogFragment"
+        android:label="DeleteDialogFragment">
+
+        <argument
+            android:name="post_id"
+            app:argType="long" />
+
+    </dialog>
 
 </navigation>

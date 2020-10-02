@@ -87,19 +87,19 @@
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:paddingHorizontal="@dimen/margin_small"
+        android:paddingBottom="@dimen/margin_large"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:paddingHorizontal="@dimen/margin_small"
-        android:paddingBottom="@dimen/margin_large"
         app:layout_constraintTop_toBottomOf="@id/fragment_post_details_divider">
 
         <TextView
             android:id="@+id/fragment_post_details_details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
             android:paddingTop="@dimen/margin_small"
+            android:textColor="@color/white"
             android:textSize="@dimen/text_regular"
             tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." />
 

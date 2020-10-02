@@ -8,9 +8,11 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import com.wawra.posts.R
+import com.wawra.posts.base.BaseActivity
 import com.wawra.posts.base.BaseFragment
 import com.wawra.posts.base.ViewModelProviderFactory
 import com.wawra.posts.base.loadImage
+import com.wawra.posts.presentation.posts.PostsFragmentDirections
 import kotlinx.android.synthetic.main.fragment_post_details.*
 import javax.inject.Inject
 
@@ -57,7 +59,8 @@ class PostDetailsFragment : BaseFragment() {
             Toast.makeText(context, "NOT IMPLEMENTED!", Toast.LENGTH_LONG).show() // todo
         }
         fragment_post_details_delete_button.setOnClickListener {
-            Toast.makeText(context, "NOT IMPLEMENTED!", Toast.LENGTH_LONG).show() // todo
+            (activity as? BaseActivity)?.dialogCallback = { navigate?.navigateUp() }
+            navigate?.navigate(PostsFragmentDirections.toDialogDelete(args.postId))
         }
     }
 

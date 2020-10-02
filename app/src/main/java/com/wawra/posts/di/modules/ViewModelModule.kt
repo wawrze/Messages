@@ -2,6 +2,7 @@ package com.wawra.posts.di.modules
 
 import androidx.lifecycle.ViewModel
 import com.wawra.posts.di.scopes.ViewModelKey
+import com.wawra.posts.presentation.deleteDialog.DialogDeleteViewModel
 import com.wawra.posts.presentation.postDetails.PostDetailsViewModel
 import com.wawra.posts.presentation.posts.PostsViewModel
 import dagger.Binds
@@ -20,5 +21,10 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(PostDetailsViewModel::class)
     abstract fun bindPostDetailsViewModel(postDetailsViewModel: PostDetailsViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(DialogDeleteViewModel::class)
+    abstract fun bindDialogDeleteViewModel(dialogDeleteViewModel: DialogDeleteViewModel): ViewModel
 
 }

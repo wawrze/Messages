@@ -4,6 +4,10 @@
     <string name="wait_please">Proszę czekać…</string>
     <string name="unknown_error">Wystąpił nieznany błąd. Kod błędu: %d</string>
     <string name="ok">OK</string>
+    <string name="cancel">Anuluj</string>
 
     <string name="post_details">Szczegóły wiadomości</string>
+    <string name="delete_question">Czy na pewno chcesz skasować poniższą wiadomość?</string>
+    <string name="delete_confirmation">Wiadomość została usunięta.</string>
+    <string name="delete_error">Wystąpił błąd podczas usuwania wiadomości.</string>
 </resources>

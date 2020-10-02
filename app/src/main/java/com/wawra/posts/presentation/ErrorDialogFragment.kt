@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.navArgs
 import com.wawra.posts.R
+import com.wawra.posts.base.BaseActivity
 import com.wawra.posts.base.BaseDialog
 import kotlinx.android.synthetic.main.dialog_error.*
 
@@ -22,7 +23,11 @@ class ErrorDialogFragment : BaseDialog() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         dialog_error_message.text = args.message
-        dialog_error_button.setOnClickListener { super.dismiss() }
+        dialog_error_button.setOnClickListener {
+            super.dismiss()
+            (activity as? BaseActivity)?.dialogCallback?.invoke()
+            (activity as? BaseActivity)?.dialogCallback = null
+        }
     }
 
 }

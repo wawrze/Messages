@@ -1,9 +1,9 @@
 package com.wawra.posts.presentation.posts
 
 import com.wawra.posts.BaseTestSuite
-import com.wawra.posts.R
 import com.wawra.posts.database.entities.Post
 import com.wawra.posts.logic.PostRepository
+import com.wawra.posts.logic.models.ErrorCodes
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -13,7 +13,7 @@ import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 
-class MainViewPostTestSuite : BaseTestSuite() {
+class PostsViewModelTestSuite : BaseTestSuite() {
 
     private lateinit var postRepositoryMock: PostRepository
     private lateinit var objectUnderTest: PostsViewModel
@@ -38,9 +38,10 @@ class MainViewPostTestSuite : BaseTestSuite() {
         )
         // when
         every { postRepositoryMock.getPosts() } returns Observable.just(posts)
-        val result = objectUnderTest.getPosts().value
+        objectUnderTest.getPosts()
         // then
         verify { postRepositoryMock.getPosts() }
+        val result = objectUnderTest.posts.value
         val error = objectUnderTest.error.value
         assertNull(error)
         assertNotNull(result)
@@ -54,13 +55,14 @@ class MainViewPostTestSuite : BaseTestSuite() {
     fun shouldNotGetModels() {
         // when
         every { postRepositoryMock.getPosts() } returns Observable.error(Exception())
-        val result = objectUnderTest.getPosts().value
+        objectUnderTest.getPosts()
         // then
         verify { postRepositoryMock.getPosts() }
+        val result = objectUnderTest.posts.value
         val error = objectUnderTest.error.value
         assertNull(result)
         assertNotNull(error)
-        assertEquals(R.string.unknown_error, error)
+        assertEquals(ErrorCodes.POSTS_VIEW_MODEL_GET_POSTS.code, error)
     }
 
 }
