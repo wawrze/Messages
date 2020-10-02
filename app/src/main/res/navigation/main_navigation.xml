@@ -17,6 +17,14 @@
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
 
+        <action
+            android:id="@+id/to_dialog_error"
+            app:destination="@id/dialog_error"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+
     </fragment>
 
     <fragment
@@ -28,6 +36,26 @@
             android:name="post_id"
             app:argType="long" />
 
+        <action
+            android:id="@+id/to_dialog_error"
+            app:destination="@id/dialog_error"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+
     </fragment>
+
+    <dialog
+        android:id="@+id/dialog_error"
+        android:name="com.wawra.posts.presentation.ErrorDialogFragment"
+        android:label="ErrorDialogFragment">
+
+        <argument
+            android:name="message"
+            app:argType="string" />
+
+    </dialog>
+
 
 </navigation>

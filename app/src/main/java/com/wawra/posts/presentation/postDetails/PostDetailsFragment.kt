@@ -46,8 +46,10 @@ class PostDetailsFragment : BaseFragment() {
             fragment_post_details_icon.loadImage(it.iconUrl)
         }
         viewModel.error.observe {
-            Toast.makeText(context, getString(R.string.unknown_error, it), Toast.LENGTH_LONG).show()
-        } // todo
+            navigate?.navigate(
+                PostDetailsFragmentDirections.toDialogError(getString(R.string.unknown_error, it))
+            )
+        }
     }
 
     private fun setupButtons() {

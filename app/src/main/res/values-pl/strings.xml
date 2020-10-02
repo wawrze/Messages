@@ -3,6 +3,7 @@
 
     <string name="wait_please">Proszę czekać…</string>
     <string name="unknown_error">Wystąpił nieznany błąd. Kod błędu: %d</string>
+    <string name="ok">OK</string>
 
     <string name="post_details">Szczegóły wiadomości</string>
 </resources>

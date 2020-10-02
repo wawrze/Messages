@@ -41,8 +41,10 @@ class PostsFragment : BaseFragment(), PostActions {
 
     private fun setupObservers() {
         viewModel.error.observe {
-            Toast.makeText(context, getString(R.string.unknown_error, it), Toast.LENGTH_LONG).show()
-        } // todo
+            navigate?.navigate(
+                PostsFragmentDirections.toDialogError(getString(R.string.unknown_error, it))
+            )
+        }
     }
 
     private fun setupAdapter() {
