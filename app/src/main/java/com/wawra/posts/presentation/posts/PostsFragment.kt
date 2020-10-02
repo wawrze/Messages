@@ -58,7 +58,7 @@ class PostsFragment : BaseFragment(), PostActions {
             true
         }
         R.id.deleted -> {
-            // TODO: navigate to deleted posts
+            navigate?.navigate(PostsFragmentDirections.toFragmentDeletedPosts())
             true
         }
         else -> false

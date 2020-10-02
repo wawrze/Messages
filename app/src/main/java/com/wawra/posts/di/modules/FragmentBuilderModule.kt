@@ -2,6 +2,7 @@ package com.wawra.posts.di.modules
 
 import com.wawra.posts.di.scopes.FragmentScoped
 import com.wawra.posts.presentation.deleteDialog.DeleteDialogFragment
+import com.wawra.posts.presentation.deletedPosts.DeletedPostsFragment
 import com.wawra.posts.presentation.dialogs.ConfirmationDialogFragment
 import com.wawra.posts.presentation.dialogs.ErrorDialogFragment
 import com.wawra.posts.presentation.postDetails.PostDetailsFragment
@@ -41,5 +42,9 @@ abstract class FragmentBuilderModule {
     @FragmentScoped
     @ContributesAndroidInjector
     abstract fun contributeConfirmationDialogFragment(): ConfirmationDialogFragment?
+
+    @FragmentScoped
+    @ContributesAndroidInjector(modules = [ViewModelModule::class])
+    abstract fun contributeDeletedPostsFragment(): DeletedPostsFragment?
 
 }

@@ -41,6 +41,14 @@
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
 
+        <action
+            android:id="@+id/to_fragment_deleted_posts"
+            app:destination="@id/fragment_deleted_posts"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+
     </fragment>
 
     <fragment
@@ -172,5 +180,20 @@
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
 
     </dialog>
+
+    <fragment
+        android:id="@+id/fragment_deleted_posts"
+        android:name="com.wawra.posts.presentation.deletedPosts.DeletedPostsFragment"
+        android:label="DeletedPostsFragment">
+
+        <action
+            android:id="@+id/to_dialog_error"
+            app:destination="@id/dialog_error"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+
+    </fragment>
 
 </navigation>
