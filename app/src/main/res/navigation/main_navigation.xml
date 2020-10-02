@@ -85,6 +85,7 @@
 
         <argument
             android:name="post_id"
+            android:defaultValue="0L"
             app:argType="long" />
 
         <action
@@ -103,12 +104,38 @@
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
 
+        <action
+            android:id="@+id/to_dialog_confirmation"
+            app:destination="@id/dialog_confirmation"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+
+        <action
+            android:id="@+id/to_fragment_posts"
+            app:destination="@id/fragment_posts"
+            app:launchSingleTop="true"
+            app:popUpTo="@+id/main_nav_graph"
+            app:popUpToInclusive="true" />
+
     </fragment>
 
     <dialog
         android:id="@+id/dialog_error"
         android:name="com.wawra.posts.presentation.ErrorDialogFragment"
         android:label="ErrorDialogFragment">
+
+        <argument
+            android:name="message"
+            app:argType="string" />
+
+    </dialog>
+
+    <dialog
+        android:id="@+id/dialog_confirmation"
+        android:name="com.wawra.posts.presentation.ConfirmationDialogFragment"
+        android:label="ConfirmationDialogFragment">
 
         <argument
             android:name="message"

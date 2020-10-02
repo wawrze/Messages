@@ -16,7 +16,8 @@
 
     <string name="title_input">Wpisz tytuł…</string>
     <string name="content_input">Wpisz treść…</string>
-
+    <string name="cancel_edit_confirmation">Czy na pewno chcesz odrzucić wprowadzone zmiany?</string>
+    <string name="save_confirmation">Czy na pewno chcesz zapisać wprowadzone zmiany?</string>
     <string name="image_url_input_header">Podaj adres URL zdjęcia:</string>
     <string name="image_url_input">Wpisz adres URL zdjęcia…</string>
     <string name="image_invalid_url">Podany adres URL jest błędny lub nie zawiera zdjęcia.</string>

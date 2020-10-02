@@ -5,6 +5,7 @@ import com.wawra.posts.database.entities.Post
 import com.wawra.posts.logic.models.PostStatus
 import com.wawra.posts.network.ApiInterface
 import io.reactivex.Observable
+import io.reactivex.Single
 import javax.inject.Inject
 
 class PostRepository @Inject constructor(
@@ -28,6 +29,11 @@ class PostRepository @Inject constructor(
     ) = postDao.update(postId, newTitle, newDescription, newIconUrl)
         .onErrorReturn { 0 }
         .map { it > 0 }
+
+    // TODO: unit test
+    fun createPost(title: String, description: String, iconUrl: String) = Single.fromCallable {
+        Post(0L, 0L, title, description, iconUrl, PostStatus.CHANGED.value)
+    }.flatMap { postDao.insertPost(it) }
 
     fun deletePost(postId: Long) = postDao.deleteById(postId)
         .onErrorReturn { 0 }

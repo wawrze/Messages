@@ -1,6 +1,7 @@
 package com.wawra.posts.di.modules
 
 import com.wawra.posts.di.scopes.FragmentScoped
+import com.wawra.posts.presentation.ConfirmationDialogFragment
 import com.wawra.posts.presentation.ErrorDialogFragment
 import com.wawra.posts.presentation.deleteDialog.DeleteDialogFragment
 import com.wawra.posts.presentation.postDetails.PostDetailsFragment
@@ -36,5 +37,9 @@ abstract class FragmentBuilderModule {
     @FragmentScoped
     @ContributesAndroidInjector
     abstract fun contributeImageUrlDialogFragment(): ImageUrlDialogFragment?
+
+    @FragmentScoped
+    @ContributesAndroidInjector
+    abstract fun contributeConfirmationDialogFragment(): ConfirmationDialogFragment?
 
 }

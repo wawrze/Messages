@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import com.wawra.posts.R
@@ -12,6 +12,7 @@ import com.wawra.posts.base.BaseActivity
 import com.wawra.posts.base.BaseFragment
 import com.wawra.posts.base.ViewModelProviderFactory
 import com.wawra.posts.base.loadImage
+import com.wawra.posts.logic.models.ErrorCodes
 import kotlinx.android.synthetic.main.fragment_post_edit.*
 import javax.inject.Inject
 
@@ -70,6 +71,22 @@ class PostEditFragment : BaseFragment() {
                 PostEditFragmentDirections.toDialogError(getString(R.string.unknown_error, it))
             )
         }
+        viewModel.saveResult.observe {
+            if (it > 0L) {
+                navigate?.navigate(PostEditFragmentDirections.toFragmentPosts())
+                navigate?.navigate(
+                    R.id.fragment_post_details,
+                    bundleOf("post_id" to it)
+                )
+            } else {
+                PostEditFragmentDirections.toDialogError(
+                    getString(
+                        R.string.unknown_error,
+                        ErrorCodes.POST_EDIT_VIEW_MODEL_SAVE_POST_NOT_SAVED.code
+                    )
+                )
+            }
+        }
     }
 
     private fun setupButtons() {
@@ -77,10 +94,27 @@ class PostEditFragment : BaseFragment() {
             navigate?.navigate(PostEditFragmentDirections.toDialogImageUrl(imageUrl))
         }
         fragment_post_edit_cancel_button.setOnClickListener {
-            Toast.makeText(context, "NOT IMPLEMENTED!", Toast.LENGTH_LONG).show() // todo
+            (activity as? BaseActivity)?.confirmationDialogCallback = {
+                navigate?.navigateUp()
+                navigate?.navigateUp()
+            }
+            navigate?.navigate(
+                PostEditFragmentDirections.toDialogConfirmation(
+                    getString(R.string.cancel_edit_confirmation)
+                )
+            )
         }
         fragment_post_edit_save_button.setOnClickListener {
-            Toast.makeText(context, "NOT IMPLEMENTED!", Toast.LENGTH_LONG).show() // todo
+            (activity as? BaseActivity)?.confirmationDialogCallback = {
+                val title = fragment_post_edit_title_input.text.toString()
+                val content = fragment_post_edit_content_input.text.toString()
+                viewModel.savePost(args.postId, title, content, imageUrl)
+            }
+            navigate?.navigate(
+                PostEditFragmentDirections.toDialogConfirmation(
+                    getString(R.string.save_confirmation)
+                )
+            )
         }
     }
 
