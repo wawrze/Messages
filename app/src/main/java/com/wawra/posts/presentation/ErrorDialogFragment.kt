@@ -25,8 +25,8 @@ class ErrorDialogFragment : BaseDialog() {
         dialog_error_message.text = args.message
         dialog_error_button.setOnClickListener {
             super.dismiss()
-            (activity as? BaseActivity)?.dialogCallback?.invoke()
-            (activity as? BaseActivity)?.dialogCallback = null
+            (activity as? BaseActivity)?.deleteDialogCallBack?.invoke()
+            (activity as? BaseActivity)?.deleteDialogCallBack = null
         }
     }
 

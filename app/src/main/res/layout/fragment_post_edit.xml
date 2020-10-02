@@ -44,8 +44,6 @@
         app:srcCompat="@drawable/ic_photo_add"
         tools:ignore="ContentDescription,UnusedAttribute" />
 
-    <!--  TODO: check elevation on older APIs  -->
-
     <EditText
         android:id="@+id/fragment_post_edit_title_input"
         android:layout_width="0dp"

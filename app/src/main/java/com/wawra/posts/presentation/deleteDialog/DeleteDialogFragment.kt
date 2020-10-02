@@ -48,7 +48,7 @@ class DeleteDialogFragment : BaseDialog() {
         viewModel.postTitle.observe { dialog_question_message.text = it }
         viewModel.error.observe {
             super.dismiss()
-            (activity as? BaseActivity)?.dialogCallback = null
+            (activity as? BaseActivity)?.deleteDialogCallBack = null
             navigate?.navigate(
                 R.id.dialog_error,
                 bundleOf("message" to getString(R.string.unknown_error, it))

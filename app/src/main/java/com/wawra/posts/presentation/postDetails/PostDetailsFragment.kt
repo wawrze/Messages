@@ -55,11 +55,10 @@ class PostDetailsFragment : BaseFragment() {
 
     private fun setupButtons() {
         fragment_post_details_edit_button.setOnClickListener {
-            (activity as? BaseActivity)?.dialogCallback = { viewModel.getPost(args.postId) }
             navigate?.navigate(PostsFragmentDirections.toFragmentPostEdit(args.postId))
         }
         fragment_post_details_delete_button.setOnClickListener {
-            (activity as? BaseActivity)?.dialogCallback = { navigate?.navigateUp() }
+            (activity as? BaseActivity)?.deleteDialogCallBack = { navigate?.navigateUp() }
             navigate?.navigate(PostsFragmentDirections.toDialogDelete(args.postId))
         }
     }

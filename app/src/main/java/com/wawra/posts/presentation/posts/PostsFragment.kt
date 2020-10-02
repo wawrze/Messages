@@ -74,12 +74,11 @@ class PostsFragment : BaseFragment(), PostActions {
     }
 
     override fun edit(postId: Long) {
-        (activity as? BaseActivity)?.dialogCallback = { getPosts() }
         navigate?.navigate(PostsFragmentDirections.toFragmentPostEdit(postId))
     }
 
     override fun delete(postId: Long) {
-        (activity as? BaseActivity)?.dialogCallback = { getPosts() }
+        (activity as? BaseActivity)?.deleteDialogCallBack = { getPosts() }
         navigate?.navigate(PostsFragmentDirections.toDialogDelete(postId))
     }
 

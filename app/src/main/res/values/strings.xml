@@ -16,4 +16,8 @@
 
     <string name="title_input">Enter title…</string>
     <string name="content_input">Enter content…</string>
+
+    <string name="image_url_input_header">Enter photo URL:</string>
+    <string name="image_url_input">Enter photo URL…</string>
+    <string name="image_invalid_url">The URL provided is invalid or does not contain a photo.</string>
 </resources>

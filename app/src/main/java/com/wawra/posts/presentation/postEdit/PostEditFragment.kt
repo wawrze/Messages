@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import com.wawra.posts.R
+import com.wawra.posts.base.BaseActivity
 import com.wawra.posts.base.BaseFragment
 import com.wawra.posts.base.ViewModelProviderFactory
 import com.wawra.posts.base.loadImage
@@ -48,6 +49,16 @@ class PostEditFragment : BaseFragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        (activity as? BaseActivity)?.imageUrlCallBack = { imageUrl = it }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        (activity as? BaseActivity)?.imageUrlCallBack = null
+    }
+
     private fun setupObservers() {
         viewModel.post.observe {
             fragment_post_edit_title_input.setText(it.title)
@@ -55,14 +66,15 @@ class PostEditFragment : BaseFragment() {
             imageUrl = it.iconUrl
         }
         viewModel.error.observe {
-            getString(R.string.unknown_error, it)
-            // TODO
+            navigate?.navigate(
+                PostEditFragmentDirections.toDialogError(getString(R.string.unknown_error, it))
+            )
         }
     }
 
     private fun setupButtons() {
         fragment_post_edit_icon_edit.setOnClickListener {
-            Toast.makeText(context, "NOT IMPLEMENTED!", Toast.LENGTH_LONG).show() // todo
+            navigate?.navigate(PostEditFragmentDirections.toDialogImageUrl(imageUrl))
         }
         fragment_post_edit_cancel_button.setOnClickListener {
             Toast.makeText(context, "NOT IMPLEMENTED!", Toast.LENGTH_LONG).show() // todo
