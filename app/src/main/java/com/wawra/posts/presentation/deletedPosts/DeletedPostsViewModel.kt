@@ -15,15 +15,18 @@ class DeletedPostsViewModel @Inject constructor(private val postRepository: Post
 
     private val mPosts = MutableLiveData<List<Post>>()
     private val mError = MutableLiveData<Int>()
+    private val mRestoreResult = MutableLiveData<Boolean>()
 
     val posts: LiveData<List<Post>>
         get() = mPosts
     val error: LiveData<Int>
         get() = mError
+    val restoreResult: LiveData<Boolean>
+        get() = mRestoreResult
 
     // TODO: unit tests
 
-    fun getPosts() {
+    fun getDeletedPosts() {
         postRepository.getDeletedPosts()
             .subscribeOn(io())
             .observeOn(mainThread())
@@ -32,6 +35,20 @@ class DeletedPostsViewModel @Inject constructor(private val postRepository: Post
                 {
                     it.printStackTrace()
                     mError.postValue(ErrorCodes.DELETED_POSTS_VIEW_MODEL_GET_POSTS.code)
+                }
+            )
+            .addToDisposables()
+    }
+
+    fun restorePost(postId: Long) {
+        postRepository.restoreDeletedPost(postId)
+            .subscribeOn(io())
+            .observeOn(mainThread())
+            .subscribe(
+                { mRestoreResult.postValue(it) },
+                {
+                    it.printStackTrace()
+                    mError.postValue(ErrorCodes.DELETED_POSTS_VIEW_MODEL_RESTORE_POST.code)
                 }
             )
             .addToDisposables()

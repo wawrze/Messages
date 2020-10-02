@@ -4,7 +4,7 @@ import dagger.android.support.DaggerAppCompatActivity
 
 abstract class BaseActivity : DaggerAppCompatActivity() {
 
-    var deleteDialogCallBack: (() -> Unit)? = null
+    var dialogCallBack: (() -> Unit)? = null
     var imageUrlCallBack: ((String) -> Unit)? = null
     var confirmationDialogCallback: (() -> Unit)? = null
 

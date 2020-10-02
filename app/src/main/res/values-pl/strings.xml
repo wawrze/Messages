@@ -14,6 +14,8 @@
     <string name="delete_question">Czy na pewno chcesz skasować poniższą wiadomość?</string>
     <string name="delete_confirmation">Wiadomość została usunięta.</string>
     <string name="delete_error">Wystąpił błąd podczas usuwania wiadomości.</string>
+    <string name="restore_question">Czy na pewno chcesz przywrócić wiadomość?</string>
+    <string name="restore_confirmation">Wiadomość została przywrócona.</string>
 
     <string name="title_input">Wpisz tytuł…</string>
     <string name="content_input">Wpisz treść…</string>

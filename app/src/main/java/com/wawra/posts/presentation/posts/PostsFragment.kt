@@ -98,7 +98,7 @@ class PostsFragment : BaseFragment(), PostActions {
     }
 
     override fun delete(postId: Long) {
-        (activity as? BaseActivity)?.deleteDialogCallBack = { getPosts() }
+        (activity as? BaseActivity)?.dialogCallBack = { getPosts() }
         navigate?.navigate(PostsFragmentDirections.toDialogDelete(postId))
     }
 

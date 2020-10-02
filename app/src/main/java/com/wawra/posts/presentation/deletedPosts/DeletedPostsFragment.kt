@@ -4,12 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.wawra.posts.R
+import com.wawra.posts.base.BaseActivity
 import com.wawra.posts.base.BaseFragment
 import com.wawra.posts.base.ViewModelProviderFactory
+import com.wawra.posts.logic.models.ErrorCodes
 import kotlinx.android.synthetic.main.fragment_posts.*
 import javax.inject.Inject
 
@@ -54,6 +56,22 @@ class DeletedPostsFragment : BaseFragment() {
             fragment_post_swipe_refresh.isRefreshing = false
             postsAdapter.data = it
         }
+        viewModel.restoreResult.observe {
+            if (it) {
+                getDeletedPosts()
+                navigate?.navigate(
+                    R.id.dialog_error,
+                    bundleOf("message" to getString(R.string.restore_confirmation))
+                )
+            } else {
+                DeletedPostsFragmentDirections.toDialogError(
+                    getString(
+                        R.string.unknown_error,
+                        ErrorCodes.DELETED_POSTS_VIEW_MODEL_RESTORE_POST_NOT_RESTORED.code
+                    )
+                )
+            }
+        }
     }
 
     private fun setupAdapter() {
@@ -66,12 +84,14 @@ class DeletedPostsFragment : BaseFragment() {
 
     private fun getDeletedPosts() {
         fragment_post_swipe_refresh.isRefreshing = true
-        viewModel.getPosts()
+        viewModel.getDeletedPosts()
     }
 
     private val restoreCallBack: (Long) -> Unit = {
-        // todo
-        Toast.makeText(context, "NOT IMPLEMENTED!", Toast.LENGTH_LONG).show()
+        (activity as? BaseActivity)?.confirmationDialogCallback = { viewModel.restorePost(it) }
+        navigate?.navigate(
+            DeletedPostsFragmentDirections.toDialogConfirmation(getString(R.string.restore_question))
+        )
     }
 
 }

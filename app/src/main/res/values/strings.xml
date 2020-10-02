@@ -14,6 +14,8 @@
     <string name="delete_question">Are you sure you want to delete the post below?</string>
     <string name="delete_confirmation">Post has been deleted.</string>
     <string name="delete_error">An error occurred while deleting the post.</string>
+    <string name="restore_question">Are you sure you want to restore the post?</string>
+    <string name="restore_confirmation">Post has been restored.</string>
 
     <string name="title_input">Enter title…</string>
     <string name="content_input">Enter content…</string>

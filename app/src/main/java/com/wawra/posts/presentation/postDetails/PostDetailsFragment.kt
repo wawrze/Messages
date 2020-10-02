@@ -58,7 +58,7 @@ class PostDetailsFragment : BaseFragment() {
             navigate?.navigate(PostsFragmentDirections.toFragmentPostEdit(args.postId))
         }
         fragment_post_details_delete_button.setOnClickListener {
-            (activity as? BaseActivity)?.deleteDialogCallBack = { navigate?.navigateUp() }
+            (activity as? BaseActivity)?.dialogCallBack = { navigate?.navigateUp() }
             navigate?.navigate(PostsFragmentDirections.toDialogDelete(args.postId))
         }
     }
