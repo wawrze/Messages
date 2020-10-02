@@ -131,7 +131,7 @@
 
     <dialog
         android:id="@+id/dialog_error"
-        android:name="com.wawra.posts.presentation.dialogs.ErrorDialogFragment"
+        android:name="com.wawra.posts.presentation.sharedDialogs.ErrorDialogFragment"
         android:label="ErrorDialogFragment">
 
         <argument
@@ -142,7 +142,7 @@
 
     <dialog
         android:id="@+id/dialog_confirmation"
-        android:name="com.wawra.posts.presentation.dialogs.ConfirmationDialogFragment"
+        android:name="com.wawra.posts.presentation.sharedDialogs.ConfirmationDialogFragment"
         android:label="ConfirmationDialogFragment">
 
         <argument

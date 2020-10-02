@@ -15,6 +15,7 @@ import com.wawra.posts.R
 import com.wawra.posts.base.BaseActivity
 import com.wawra.posts.base.BaseDialog
 import com.wawra.posts.logic.models.ErrorCodes
+import com.wawra.posts.presentation.sharedDialogs.ProgressDialogFragment
 import kotlinx.android.synthetic.main.dialog_image_url.*
 
 
@@ -36,7 +37,7 @@ class ImageUrlDialogFragment : BaseDialog() {
     }
 
     private fun loadPhoto() {
-        // TODO: show progress bar
+        ProgressDialogFragment.createAndShow(activity)
         val url = dialog_image_url_input.text.toString()
         activity?.let {
             Glide.with(it)
@@ -60,6 +61,7 @@ class ImageUrlDialogFragment : BaseDialog() {
                         dataSource: DataSource?,
                         isFirstResource: Boolean
                     ): Boolean {
+                        ProgressDialogFragment.dismiss(activity)
                         super@ImageUrlDialogFragment.dismiss()
                         (activity as? BaseActivity)?.imageUrlCallBack?.invoke(url)
                         return true
@@ -75,6 +77,7 @@ class ImageUrlDialogFragment : BaseDialog() {
     }
 
     private fun showInvalidUrlError() {
+        ProgressDialogFragment.dismiss(activity)
         navigate?.navigate(
             ImageUrlDialogFragmentDirections.toDialogError(getString(R.string.image_invalid_url))
         )
