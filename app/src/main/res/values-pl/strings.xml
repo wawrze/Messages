@@ -7,7 +7,12 @@
     <string name="cancel">Anuluj</string>
 
     <string name="post_details">Szczegóły wiadomości</string>
+    <string name="post_edit">Edycja wiadomości</string>
+
     <string name="delete_question">Czy na pewno chcesz skasować poniższą wiadomość?</string>
     <string name="delete_confirmation">Wiadomość została usunięta.</string>
     <string name="delete_error">Wystąpił błąd podczas usuwania wiadomości.</string>
+
+    <string name="title_input">Wpisz tytuł…</string>
+    <string name="content_input">Wpisz treść…</string>
 </resources>
