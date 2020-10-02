@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.wawra.posts.R
@@ -75,7 +74,8 @@ class PostsFragment : BaseFragment(), PostActions {
     }
 
     override fun edit(postId: Long) {
-        Toast.makeText(context, "NOT IMPLEMENTED!", Toast.LENGTH_LONG).show() // todo
+        (activity as? BaseActivity)?.dialogCallback = { getPosts() }
+        navigate?.navigate(PostsFragmentDirections.toFragmentPostEdit(postId))
     }
 
     override fun delete(postId: Long) {

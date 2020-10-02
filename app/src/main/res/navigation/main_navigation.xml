@@ -18,6 +18,14 @@
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
 
         <action
+            android:id="@+id/to_fragment_post_edit"
+            app:destination="@id/fragment_post_edit"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+
+        <action
             android:id="@+id/to_dialog_error"
             app:destination="@id/dialog_error"
             app:enterAnim="@anim/nav_default_enter_anim"
@@ -45,6 +53,14 @@
             app:argType="long" />
 
         <action
+            android:id="@+id/to_fragment_post_edit"
+            app:destination="@id/fragment_post_edit"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+
+        <action
             android:id="@+id/to_dialog_error"
             app:destination="@id/dialog_error"
             app:enterAnim="@anim/nav_default_enter_anim"
@@ -59,6 +75,17 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragment_post_edit"
+        android:name="com.wawra.posts.presentation.postEdit.PostEditFragment"
+        android:label="PostEditFragment">
+
+        <argument
+            android:name="post_id"
+            app:argType="long" />
 
     </fragment>
 

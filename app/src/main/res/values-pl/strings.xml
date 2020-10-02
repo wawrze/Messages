@@ -8,6 +8,7 @@
 
     <string name="post_details">Szczegóły wiadomości</string>
     <string name="post_edit">Edycja wiadomości</string>
+    <string name="new_post">Nowa wiadomość</string>
 
     <string name="delete_question">Czy na pewno chcesz skasować poniższą wiadomość?</string>
     <string name="delete_confirmation">Wiadomość została usunięta.</string>
