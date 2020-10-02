@@ -1,9 +1,9 @@
 package com.wawra.posts.di.modules
 
 import com.wawra.posts.di.scopes.FragmentScoped
-import com.wawra.posts.presentation.ConfirmationDialogFragment
-import com.wawra.posts.presentation.ErrorDialogFragment
 import com.wawra.posts.presentation.deleteDialog.DeleteDialogFragment
+import com.wawra.posts.presentation.dialogs.ConfirmationDialogFragment
+import com.wawra.posts.presentation.dialogs.ErrorDialogFragment
 import com.wawra.posts.presentation.postDetails.PostDetailsFragment
 import com.wawra.posts.presentation.postEdit.ImageUrlDialogFragment
 import com.wawra.posts.presentation.postEdit.PostEditFragment

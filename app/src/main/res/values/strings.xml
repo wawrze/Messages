@@ -9,6 +9,7 @@
     <string name="post_details">Post details</string>
     <string name="post_edit">Post edit</string>
     <string name="new_post">New post</string>
+    <string name="deleted_post">Deleted posts</string>
 
     <string name="delete_question">Are you sure you want to delete the post below?</string>
     <string name="delete_confirmation">Post has been deleted.</string>

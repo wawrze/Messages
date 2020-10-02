@@ -1,9 +1,7 @@
 package com.wawra.posts.presentation.posts
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.wawra.posts.R
@@ -21,6 +19,11 @@ class PostsFragment : BaseFragment(), PostActions {
 
     private lateinit var viewModel: PostsViewModel
     private lateinit var postsAdapter: PostsAdapter
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        setHasOptionsMenu(true)
+        super.onCreate(savedInstanceState)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,6 +45,23 @@ class PostsFragment : BaseFragment(), PostActions {
     override fun onResume() {
         super.onResume()
         getPosts()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.new_post -> {
+            navigate?.navigate(PostsFragmentDirections.toFragmentPostEdit())
+            true
+        }
+        R.id.deleted -> {
+            // TODO: navigate to deleted posts
+            true
+        }
+        else -> false
     }
 
     private fun setupObservers() {
